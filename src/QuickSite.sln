@@ -1,13 +1,18 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
-VisualStudioVersion = 12.0.31101.0
+VisualStudioVersion = 12.0.21005.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QuickSite", "QuickSite\QuickSite.csproj", "{8105150C-FA58-4386-B0F3-F8ED9383C0D9}"
 EndProject
 Project("{6141683F-8A12-4E36-9623-2EB02B2C2303}") = "QuickSite.Install", "QuickSite.Install\QuickSite.Install.isproj", "{6C0389F1-817E-4EFF-8054-5CDA8EEEB70C}"
 	ProjectSection(ProjectDependencies) = postProject
 		{8105150C-FA58-4386-B0F3-F8ED9383C0D9} = {8105150C-FA58-4386-B0F3-F8ED9383C0D9}
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{AC16DA02-5558-425D-86F7-3A8C0C976880}"
+	ProjectSection(SolutionItems) = preProject
+		.nuget\packages.config = .nuget\packages.config
 	EndProjectSection
 EndProject
 Global
