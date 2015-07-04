@@ -1,0 +1,34 @@
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+	<PropertyGroup>
+		<BuildDependsOn>
+			$(BuildDependsOn);
+			MergeAssemblies
+		</BuildDependsOn>
+	</PropertyGroup>
+
+	<UsingTask
+		AssemblyFile="$(SolutionDir)packages\ILMerge.Tools.MSBuildToolTask.2.14.1208.49\tools\ILMerge.Tools.MSBuildToolTask.dll"
+		TaskName="ILMerge.Tools.MSBuildToolTask.ILMergeTool" />
+
+	<ItemGroup>
+		<ILMergeInputAssemblies Include="$(OutDir)$(AssemblyName).exe" />
+		<ILMergeInputAssemblies Include="$(OutDir)Microsoft.Web.Administration.dll" />
+		<ILMergeInputAssemblies Include="$(OutDir)CommandLine.dll" />
+	</ItemGroup>
+	
+ 	<PropertyGroup>
+		<MergedOutDir>$(OutDir)merged</MergedOutDir>
+	</PropertyGroup>
+	
+	<Target Name="CreateDirectories">
+        <MakeDir
+            Directories="$(OutDir)merged"/>
+    </Target>
+
+	<Target Name="MergeAssemblies" DependsOnTargets="CreateDirectories">
+		<ILMergeTool
+			InputAssemblies="@(ILMergeInputAssemblies)"
+			OutputFile="$(MergedOutDir)\$(AssemblyName).exe"
+			ToolPath="$(SolutionDir)packages\ilmerge.2.14.1208\tools\ILMerge.exe" />
+	</Target>
+</Project>
