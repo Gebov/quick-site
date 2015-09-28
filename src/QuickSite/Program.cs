@@ -15,7 +15,7 @@ namespace QuickSite
         [Option('a', "add", Required = false, HelpText = "Adds the site to iis.")]
         public bool Add { get; set; }
 
-        [Option('r', "remove", Required = false, HelpText = "removes the site from iis.")]
+        [Option('r', "remove", Required = false, HelpText = "Removes the site from iis.")]
         public bool Remove { get; set; }
 
         [Option('d', "dir", Required = true, HelpText = "The directory to make a site.")]
