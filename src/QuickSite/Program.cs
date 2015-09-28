@@ -2,6 +2,7 @@
 using Microsoft.Web.Administration;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Security.Permissions;
@@ -38,12 +39,7 @@ namespace QuickSite
                 }
                 else if (options.Add)
                 {
-                    var files = Directory.GetFiles(options.Directory);
-                    var webConfigExists = files.Select(x => new FileInfo(x)).Any(x => string.Equals(x.Name, "web.config", StringComparison.OrdinalIgnoreCase));
-                    if (webConfigExists)
-                    {
-                        AddSite(options.Directory, dirName);
-                    }
+                    AddSite(options.Directory, dirName);
                 }
                 else
                 {
@@ -71,35 +67,99 @@ namespace QuickSite
             {
                 server.Sites.Remove(site);
 
-                var appPool = server.ApplicationPools.FirstOrDefault(x => x.Name == siteName);
-                if (appPool != null)
-                    server.ApplicationPools.Remove(appPool);
+                foreach (var app in site.Applications)
+                {
+                    var appPoolName = app.ApplicationPoolName;
 
+                    bool isLastApp = true;
+                    foreach (var siteEntry in server.Sites)
+                    {
+                        foreach (var appEntry in siteEntry.Applications)
+                        {
+                            if (string.Equals(appEntry.ApplicationPoolName, appPoolName))
+                            {
+                                isLastApp = false;
+                                break;
+                            }
+                        }
+                    }
+
+                    if (isLastApp)
+                    {
+                        var appPool = server.ApplicationPools.FirstOrDefault(x => x.Name == appPoolName);
+                        if (appPool != null)
+                            server.ApplicationPools.Remove(appPool);
+                    }    
+                }
+                
                 server.CommitChanges();
+                Trace.TraceInformation("Successfully removed site");
             }
             
         }
 
         private static void AddSite(string dirPath, string siteName)
         {
+            var files = Directory.GetFiles(dirPath);
+            var webConfigExists = files.Select(x => new FileInfo(x)).Any(x => string.Equals(x.Name, "web.config", StringComparison.OrdinalIgnoreCase));
+            if (!webConfigExists)
+                return;
+
             var server = new ServerManager();
 
+            int port = 0;
             var site = server.Sites.FirstOrDefault(x => x.Name == siteName);
-            if (site == null)
+            if (site == null && TryGetFreePort(server, out port))
             {
                 var appPool = server.ApplicationPools.FirstOrDefault(x => x.Name == siteName);
                 if (appPool == null)
-                    appPool = server.ApplicationPools.Add(siteName);
-
-                site = server.Sites.Add(siteName, dirPath, 8080);
+                {
+                    var poolName = string.Concat(siteName, "_pool");
+                    appPool = server.ApplicationPools.Add(poolName);
+                    appPool.ProcessModel.IdentityType = ProcessModelIdentityType.NetworkService;
+                    appPool.ProcessModel.IdleTimeout = TimeSpan.FromMinutes(43200);
+                    appPool.Recycling.PeriodicRestart.Time = TimeSpan.FromMinutes(432000);
+                    appPool.Failure.OrphanWorkerProcess = true;
+                }
+                
+                site = server.Sites.Add(siteName, dirPath, port);
 
                 foreach (var app in site.Applications)
                     app.ApplicationPoolName = appPool.Name;
 
                 server.CommitChanges();
+                Trace.TraceInformation("Successfully added site at port {0}", port);
             }
             else
-                Console.WriteLine("Site already exists.");
+                Trace.TraceInformation("Site already exists.");
         }
+
+
+        private static bool TryGetFreePort(ServerManager server, out int port)
+        {
+            port = default(int);
+
+            var ports = new HashSet<int>();
+            foreach (var site in server.Sites)
+            {
+                foreach (var binding in site.Bindings)
+                {
+                    ports.Add(binding.EndPoint.Port);
+                }
+            }
+
+            for (int i = 8000; i < ushort.MaxValue + 1; i++)
+            {
+                if (!ports.Contains(i))
+                {
+                    port = i;
+                    return true;
+                }
+            }
+
+            Trace.TraceError("No ports available to set up site");
+            return false;
+        }
+
     }
 }
