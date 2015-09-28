@@ -5,7 +5,9 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Security.AccessControl;
 using System.Security.Permissions;
+using System.Security.Principal;
 using System.Text;
 
 namespace QuickSite
@@ -39,7 +41,7 @@ namespace QuickSite
                 }
                 else if (options.Add)
                 {
-                    AddSite(options.Directory, dirName);
+                    AddAndStartSite(options.Directory, dirName);
                 }
                 else
                 {
@@ -55,7 +57,7 @@ namespace QuickSite
             if (site != null)
                 RemoveSite(dirPath, siteName);
             else
-                AddSite(dirPath, siteName);
+                AddAndStartSite(dirPath, siteName);
         }
 
         private static void RemoveSite(string dirPath, string siteName)
@@ -98,12 +100,20 @@ namespace QuickSite
             
         }
 
-        private static void AddSite(string dirPath, string siteName)
+        private static void AddAndStartSite(string dirPath, string siteName)
+        {
+            var siteUrl = AddSite(dirPath, siteName);
+
+            var startInfo = new ProcessStartInfo("explorer.exe", siteUrl);
+            Process.Start(startInfo);
+        }
+        
+        private static string AddSite(string dirPath, string siteName)
         {
             var files = Directory.GetFiles(dirPath);
             var webConfigExists = files.Select(x => new FileInfo(x)).Any(x => string.Equals(x.Name, "web.config", StringComparison.OrdinalIgnoreCase));
             if (!webConfigExists)
-                return;
+                return null;
 
             var server = new ServerManager();
 
@@ -111,6 +121,8 @@ namespace QuickSite
             var site = server.Sites.FirstOrDefault(x => x.Name == siteName);
             if (site == null && TryGetFreePort(server, out port))
             {
+                GrantSecurity(dirPath);
+
                 var appPool = server.ApplicationPools.FirstOrDefault(x => x.Name == siteName);
                 if (appPool == null)
                 {
@@ -121,7 +133,7 @@ namespace QuickSite
                     appPool.Recycling.PeriodicRestart.Time = TimeSpan.FromMinutes(432000);
                     appPool.Failure.OrphanWorkerProcess = true;
                 }
-                
+
                 site = server.Sites.Add(siteName, dirPath, port);
 
                 foreach (var app in site.Applications)
@@ -129,11 +141,22 @@ namespace QuickSite
 
                 server.CommitChanges();
                 Trace.TraceInformation("Successfully added site at port {0}", port);
+                return string.Format("http://localhost:{0}", port);
             }
             else
                 Trace.TraceInformation("Site already exists.");
+
+            return null;
         }
 
+        private static void GrantSecurity(string dirPath)
+        {
+            var sec = Directory.GetAccessControl(dirPath);
+            // Using this instead of the "Everyone" string means we work on non-English systems.
+            var everyone = new SecurityIdentifier(WellKnownSidType.WorldSid, null);
+            sec.AddAccessRule(new FileSystemAccessRule(everyone, FileSystemRights.Modify | FileSystemRights.Synchronize, InheritanceFlags.ContainerInherit | InheritanceFlags.ObjectInherit, PropagationFlags.None, AccessControlType.Allow));
+            Directory.SetAccessControl(dirPath, sec);
+        }
 
         private static bool TryGetFreePort(ServerManager server, out int port)
         {
