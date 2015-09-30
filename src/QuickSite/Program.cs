@@ -132,6 +132,7 @@ namespace QuickSite
                     appPool.ProcessModel.IdleTimeout = TimeSpan.FromMinutes(43200);
                     appPool.Recycling.PeriodicRestart.Time = TimeSpan.FromMinutes(432000);
                     appPool.Failure.OrphanWorkerProcess = true;
+                    appPool.AutoStart = true;
                 }
 
                 site = server.Sites.Add(siteName, dirPath, port);

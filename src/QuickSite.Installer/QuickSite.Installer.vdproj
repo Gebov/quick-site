@@ -15,38 +15,14 @@
     {
         "Entry"
         {
-        "MsmKey" = "8:_0C1F8A2469972A6D24A116E26F03F225"
-        "OwnerKey" = "8:_461CD70581874444AE8312703297D41B"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_461CD70581874444AE8312703297D41B"
+        "MsmKey" = "8:_AD04FEA13A8740BFADC9150CC586C780"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_BB6516AE84C8603E72ADF54FD546701F"
-        "OwnerKey" = "8:_461CD70581874444AE8312703297D41B"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_461CD70581874444AE8312703297D41B"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_0C1F8A2469972A6D24A116E26F03F225"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_BB6516AE84C8603E72ADF54FD546701F"
+        "OwnerKey" = "8:_AD04FEA13A8740BFADC9150CC586C780"
         "MsmSig" = "8:_UNDEFINED"
         }
     }
@@ -106,6 +82,14 @@
             "PrerequisitesLocation" = "2:1"
             "Url" = "8:"
             "ComponentsUrl" = "8:"
+                "Items"
+                {
+                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:.NETFramework,Version=v4.5"
+                    {
+                    "Name" = "8:Microsoft .NET Framework 4.5 (x86 and x64)"
+                    "ProductCode" = "8:.NETFramework,Version=v4.5"
+                    }
+                }
             }
         }
     }
@@ -136,20 +120,20 @@
         }
         "File"
         {
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_0C1F8A2469972A6D24A116E26F03F225"
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_AD04FEA13A8740BFADC9150CC586C780"
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:Microsoft.Web.Administration, Version=7.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL"
+            "AssemblyAsmDisplayName" = "8:QuickSite, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_0C1F8A2469972A6D24A116E26F03F225"
+                    "_AD04FEA13A8740BFADC9150CC586C780"
                     {
-                    "Name" = "8:Microsoft.Web.Administration.dll"
+                    "Name" = "8:QuickSite.exe"
                     "Attributes" = "3:512"
                     }
                 }
-            "SourcePath" = "8:Microsoft.Web.Administration.dll"
+            "SourcePath" = "8:..\\QuickSite\\bin\\Debug\\merged\\QuickSite.exe"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_E9BB047AC36D4CB0A9815B31ADAF5A8D"
@@ -164,38 +148,7 @@
             "PackageAs" = "3:1"
             "Register" = "3:1"
             "Exclude" = "11:FALSE"
-            "IsDependency" = "11:TRUE"
-            "IsolateTo" = "8:"
-            }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_BB6516AE84C8603E72ADF54FD546701F"
-            {
-            "AssemblyRegister" = "3:1"
-            "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:CommandLine, Version=1.9.71.2, Culture=neutral, PublicKeyToken=de6f01bd326f8c32, processorArchitecture=MSIL"
-                "ScatterAssemblies"
-                {
-                    "_BB6516AE84C8603E72ADF54FD546701F"
-                    {
-                    "Name" = "8:CommandLine.dll"
-                    "Attributes" = "3:512"
-                    }
-                }
-            "SourcePath" = "8:CommandLine.dll"
-            "TargetName" = "8:"
-            "Tag" = "8:"
-            "Folder" = "8:_E9BB047AC36D4CB0A9815B31ADAF5A8D"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:TRUE"
+            "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
         }
@@ -254,15 +207,15 @@
         {
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:QuickSite"
-        "ProductCode" = "8:{5C9E9A5D-CA81-4B76-B5AB-8F4DEF77FDC2}"
-        "PackageCode" = "8:{629A97A6-F98C-4043-8513-D6CAE9485B52}"
+        "ProductCode" = "8:{E9DD43ED-8B99-44A9-918B-7D0851619954}"
+        "PackageCode" = "8:{B3E7FF82-F753-40BC-A344-BC5E499FF407}"
         "UpgradeCode" = "8:{C646AC20-F73B-4B19-90EC-6E693633F48C}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:TRUE"
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:TRUE"
-        "ProductVersion" = "8:1.0.0"
+        "ProductVersion" = "8:1.0.1"
         "Manufacturer" = "8:Gebov"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:"
@@ -271,7 +224,7 @@
         "ARPCONTACT" = "8:Gebov"
         "Keywords" = "8:"
         "ARPCOMMENTS" = "8:"
-        "ARPURLINFOABOUT" = "8:"
+        "ARPURLINFOABOUT" = "8:https://github.com/Gebov/quick-site"
         "ARPPRODUCTICON" = "8:"
         "ARPIconIndex" = "3:0"
         "SearchPath" = "8:"
@@ -876,34 +829,6 @@
         }
         "ProjectOutput"
         {
-            "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_461CD70581874444AE8312703297D41B"
-            {
-            "SourcePath" = "8:..\\QuickSite\\obj\\Debug\\QuickSite.exe"
-            "TargetName" = "8:"
-            "Tag" = "8:"
-            "Folder" = "8:_E9BB047AC36D4CB0A9815B31ADAF5A8D"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            "ProjectOutputGroupRegister" = "3:1"
-            "OutputConfiguration" = "8:"
-            "OutputGroupCanonicalName" = "8:Built"
-            "OutputProjectGuid" = "8:{8105150C-FA58-4386-B0F3-F8ED9383C0D9}"
-            "ShowKeyOutput" = "11:TRUE"
-                "ExcludeFilters"
-                {
-                }
-            }
         }
     }
 }
